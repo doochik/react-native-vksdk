@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "A wrapper around the iOS VK (VKontakte) SDK for React Native apps",
   "homepage": "https://github.com/doochik/react-native-vk-sdk",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/doochik/react-native-vk-sdk.git"
+  },
   "main": "index.ios.js",
   "peerDependencies": {
     "react-native": ">=0.12.0"
