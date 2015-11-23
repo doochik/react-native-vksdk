@@ -1,6 +1,6 @@
 {
   "name": "react-native-vksdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A wrapper around the iOS VK (VKontakte) SDK for React Native apps",
   "homepage": "https://github.com/doochik/react-native-vk-sdk",
   "repository": {
