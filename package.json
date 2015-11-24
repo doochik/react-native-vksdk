@@ -1,11 +1,11 @@
 {
   "name": "react-native-vksdk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A wrapper around the iOS VK (VKontakte) SDK for React Native apps",
   "homepage": "https://github.com/doochik/react-native-vk-sdk",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/doochik/react-native-vk-sdk.git"
+    "type": "git",
+    "url": "https://github.com/doochik/react-native-vksdk.git"
   },
   "main": "index.ios.js",
   "peerDependencies": {
@@ -19,11 +19,15 @@
     "react-native",
     "react-component",
     "ios",
-    "vk"
+    "vk",
+    "vkontakte"
   ],
   "author": {
     "name": "Aleksei Androsov",
     "url": "http://github.com/doochik"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/doochik/react-native-vksdk/issues"
+  }
 }
