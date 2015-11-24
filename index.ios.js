@@ -1,10 +1,6 @@
 'use strict';
 
-var React = require('react-native');
-var {
-    NativeModules
-} = React;
-var VkSdkLoginManager = NativeModules.VkSdkLoginManager;
+var VkSdkLoginManager = require('react-native').NativeModules.VkSdkLoginManager;
 
 module.exports = {
 
