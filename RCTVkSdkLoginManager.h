@@ -1,11 +1,5 @@
-// #import "RCTBridgeModule.h"
-
-//@interface RCTVkSdkLoginManager : NSObject <RCTBridgeModule>
-//@end
-
-
+#import "RCTBridgeModule.h"
 #import "VKSdk/VKSdk.h"
-#import "RCTViewManager.h"
 
-@interface RCTVkSdkLoginManager : RCTViewManager <VKSdkDelegate, VKSdkUIDelegate>
+@interface RCTVkSdkLoginManager : NSObject <RCTBridgeModule, VKSdkDelegate, VKSdkUIDelegate>
 @end

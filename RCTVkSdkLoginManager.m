@@ -18,17 +18,17 @@ RCT_EXPORT_MODULE();
 - (instancetype)init
 {
   if ((self = [super init])) {
-    // TODO: to info.plist
-    
     NSString *VkAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"VkAppID"];
     NSLog(@"RCTVkSdkLoginManager starts with ID %@", VkAppID);
-    
+
     _sdkInstance = [VKSdk initializeWithAppId:VkAppID];
     [_sdkInstance registerDelegate:self];
     [_sdkInstance setUiDelegate:self];
   }
   return self;
 }
+
+#pragma mark RN Export
 
 RCT_EXPORT_METHOD(authorize:(RCTResponseSenderBlock)jsCallback)
 {
@@ -43,18 +43,18 @@ RCT_EXPORT_METHOD(logout)
   [VKSdk forceLogout];
 };
 
-// vk iface (start)
+#pragma mark VKSdkDelegate
 
 - (void)vkSdkAccessAuthorizationFinishedWithResult:(VKAuthorizationResult *)result {
   NSLog(@"vkSdkAccessAuthorizationFinishedWithResult %@", result);
   if (result.error) {
     NSDictionary *jsError = [self _NSError2JS:result.error];
     self->callback(@[jsError, [NSNull null]]);
-    
+
   } else if (result.token) {
     NSDictionary *loginData = [self buildResponseData];
     self->callback(@[[NSNull null], loginData]);
- 
+
   }
 }
 
@@ -63,14 +63,16 @@ RCT_EXPORT_METHOD(logout)
   self->callback(@[error, [NSNull null]]);
 }
 
+#pragma mark VKSdkUIDelegate
+
 -(void) vkSdkNeedCaptchaEnter:(VKError*) captchaError
 {
   NSLog(@"vkSdkNeedCaptchaEnter %@", captchaError);
   VKCaptchaViewController * vc = [VKCaptchaViewController captchaControllerWithError:captchaError];
-  
+
   UIWindow *keyWindow = RCTSharedApplication().keyWindow;
   UIViewController *rootViewController = keyWindow.rootViewController;
-  
+
   [vc presentIn:rootViewController];
 }
 
@@ -78,11 +80,11 @@ RCT_EXPORT_METHOD(logout)
   NSLog(@"vkSdkShouldPresentViewController");
   UIWindow *keyWindow = RCTSharedApplication().keyWindow;
   UIViewController *rootViewController = keyWindow.rootViewController;
-  
+
   [rootViewController presentViewController:controller animated:YES completion:nil];
 }
 
-// vk iface (end)
+#pragma mark - helpers
 
 - (void)_authorize
 {
