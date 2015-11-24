@@ -1,3 +1,4 @@
+[![NPM version](https://badge.fury.io/js/react-native-vksdk.svg)](http://badge.fury.io/js/react-native-vksdk)
 # react-native-vk-sdk
 
 A wrapper around the [iOS VK (VKontakte) SDK](https://github.com/VKCOM/vk-ios-sdk) for React Native apps.
