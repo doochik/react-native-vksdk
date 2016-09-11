@@ -22,6 +22,10 @@ module.exports = {
         });
     },
 
+    openShareDialog: function(options) {
+        return VkSdkLoginManager.openShareDialog(options);
+    },
+
     /**
      * Forces logout using OAuth (with VKAuthorizeController). Removes all cookies for *.vk.com.
      * Has no effect for logout in VK app.
