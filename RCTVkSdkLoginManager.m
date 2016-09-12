@@ -31,29 +31,37 @@ RCT_EXPORT_MODULE();
     _sdkInstance = [VKSdk initializeWithAppId:VkAppID];
     [_sdkInstance registerDelegate:self];
     [_sdkInstance setUiDelegate:self];
-    
-    NSArray *SCOPE = @[VK_PER_FRIENDS, VK_PER_EMAIL];
-    [VKSdk wakeUpSession:SCOPE completeBlock:^(VKAuthorizationState state, NSError *error) {
-      if (state == VKAuthorizationAuthorized) {
-        VKSDKLog(@"wakeUpSession", state);
-        // Authorized and ready to go
-      } else if (error) {
-        VKSDKLog(@"wakeUpSession", error);
-        // Some error happend, but you may try later
-      }
-    }];
   }
   return self;
 }
 
 #pragma mark RN Export
 
-RCT_EXPORT_METHOD(authorize:(RCTResponseSenderBlock)jsCallback)
+RCT_EXPORT_METHOD(authorize:(NSArray *)permissions
+                  callback:(RCTResponseSenderBlock)jsCallback)
 {
   VKSDKLog(@"RCTVkSdkLoginManager#authorize");
   self->callback = jsCallback;
-  [self _authorize];
+  [self _authorize: permissions];
 };
+
+RCT_REMAP_METHOD(getCurrentAccessToken,
+                  resolver:(RCTPromiseResolveBlock) resolve
+                  rejecter:(RCTPromiseRejectBlock) reject)
+{
+    NSArray *SCOPE = @[];
+    [VKSdk wakeUpSession:SCOPE completeBlock:^(VKAuthorizationState state, NSError *error) {
+      if (state == VKAuthorizationAuthorized) {
+        NSDictionary *loginData = [self buildResponseData];
+        VKSDKLog(@"wakeUpSession VKAuthorizationAuthorized %@", loginData);
+        resolve(loginData);
+
+      } else {
+        VKSDKLog(@"wakeUpSession error");
+        resolve(nil);
+      }
+    }];
+}
 
 RCT_EXPORT_METHOD(logout)
 {
@@ -130,12 +138,10 @@ RCT_EXPORT_METHOD(openShareDialog: (NSDictionary *) data resolver: (RCTPromiseRe
 
 #pragma mark - helpers
 
-- (void)_authorize
+- (void)_authorize:(NSArray *)permissions
 {
-  NSArray *SCOPE = @[VK_PER_FRIENDS, VK_PER_EMAIL];
-  [VKSdk wakeUpSession:SCOPE completeBlock:^(VKAuthorizationState state, NSError *error) {
+  [VKSdk wakeUpSession:permissions completeBlock:^(VKAuthorizationState state, NSError *error) {
     if (state == VKAuthorizationAuthorized) {
-      // VKAuthorizationAuthorized - means a previous session is okay, and you can continue working with user data.
       VKSDKLog(@"VKSdk wakeUpSession result VKAuthorizationAuthorized");
       NSDictionary *loginData = [self buildResponseData];
       self->callback(@[[NSNull null], loginData]);
@@ -144,7 +150,7 @@ RCT_EXPORT_METHOD(openShareDialog: (NSDictionary *) data resolver: (RCTPromiseRe
       // VKAuthorizationInitialized – means the SDK is ready to work, and you can authorize user with `+authorize:` method. Probably, an old session has expired, and we wiped it out. *This is not an error.*
       
       VKSDKLog(@"VKSdk wakeUpSession result VKAuthorizationInitialized");
-      [VKSdk authorize:SCOPE];
+      [VKSdk authorize:permissions];
 
     } else if (state == VKAuthorizationError) {
       // VKAuthorizationError - means some error happened when we tried to check the authorization. Probably, the internet connection has a bad quality. You have to try again later.

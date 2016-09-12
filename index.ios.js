@@ -1,8 +1,13 @@
 'use strict';
 
-var VkSdkLoginManager = require('react-native').NativeModules.VkSdkLoginManager;
+const VkSdkLoginManager = require('react-native').NativeModules.VkSdkLoginManager;
 
-module.exports = {
+export default {
+
+    getCurrentAccessToken() {
+        //TODO: API
+        return VkSdkLoginManager.getCurrentAccessToken();
+    },
 
     /**
      * Starts authorization process to retrieve unlimited token.
@@ -10,9 +15,9 @@ module.exports = {
      * Otherwise Mobile Safari will be opened for access request.
      * @returns {Promise}
      */
-    authorize: function() {
+    authorize: function(permissions) {
         return new Promise(function(resolve, reject) {
-            VkSdkLoginManager.authorize(function(error, result) {
+            VkSdkLoginManager.authorize(permissions, function(error, result) {
                 if (error) {
                     reject(error);
                 } else {
