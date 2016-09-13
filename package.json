@@ -1,6 +1,6 @@
 {
   "name": "react-native-vksdk",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "A wrapper around the iOS VK (VKontakte) SDK for React Native apps",
   "homepage": "https://github.com/doochik/react-native-vk-sdk",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "main": "index.ios.js",
   "peerDependencies": {
-    "react-native": ">=0.12.0"
+    "react-native": ">=0.30"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
