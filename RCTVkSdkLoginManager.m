@@ -110,6 +110,11 @@ RCT_EXPORT_METHOD(openShareDialog: (NSDictionary *) data resolver: (RCTPromiseRe
   }
 }
 
+- (void)vkSdkUserAuthorizationFailed {
+  VKSDKLog(@"vkSdkUserAuthorizationFailed");
+  self->callback(@[@"vkSdkUserAuthorizationFailed", [NSNull null]]);
+}
+
 - (void)vkSdkUserAuthorizationFailed:(VKError *)error {
   VKSDKLog(@"vkSdkUserAuthorizationFailed %@", error);
   self->callback(@[error, [NSNull null]]);
